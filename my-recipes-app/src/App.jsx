@@ -3,51 +3,49 @@ import "./index.css";
 
 function App() {
   const [recipes, setRecipes] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/US_recipes.json')
+    fetch("/US_recipes.json")
       .then((res) => res.json())
       .then((data) => {
-        const cleanNumeric = (value) => {
-          const num = Number(value);
-          return isNaN(num) ? null : num;
-        };
-
-        const cleaned = data.map((recipe) => ({
-          ...recipe,
-          rating: cleanNumeric(recipe.rating),
-          prep_time: cleanNumeric(recipe.prep_time),
-          cook_time: cleanNumeric(recipe.cook_time),
-          total_time: cleanNumeric(recipe.total_time),
-          nutrients: recipe.nutrients || {},
-        }));
-
-        setRecipes(cleaned);
+        setRecipes(data);
+        setLoading(false);
       })
-      .catch((err) => console.error("Failed to load recipes:", err));
+      .catch((err) => {
+        console.error("Failed to load recipes:", err);
+        setLoading(false);
+      });
   }, []);
 
+  if (loading) return <h2>Loading recipes...</h2>;
+
   return (
-    <div>
-      <h1>US Recipes</h1>
-      <ul>
+    <div className="container">
+      <h1>🍽️ US Fusion Recipes</h1>
+      <ul className="recipe-list">
         {recipes.map((recipe, index) => (
-          <li key={index}>
-            <strong>{recipe.title}</strong> ({recipe.cuisine})<br />
-            <em>{recipe.description}</em><br />
+          <li key={index} className="recipe-card">
+            <h2>{recipe.title}</h2>
+            <p><em>{recipe.cuisine}</em></p>
+            <p>{recipe.description}</p>
             <p>
-              ⭐ Rating: {recipe.rating ?? 'N/A'}<br />
-              🕒 Prep: {recipe.prep_time ?? 'N/A'} mins | Cook: {recipe.cook_time ?? 'N/A'} mins | Total: {recipe.total_time ?? 'N/A'} mins<br />
-              🍽️ Serves: {recipe.serves ?? 'N/A'}
+              ⭐ <strong>Rating:</strong> {recipe.rating ?? "N/A"} <br />
+              🕒 <strong>Prep:</strong> {recipe.prep_time} mins | 
+              Cook: {recipe.cook_time} mins | 
+              Total: {recipe.total_time} mins <br />
+              🍽️ <strong>Serves:</strong> {recipe.serves}
             </p>
-            {recipe.nutrients && Object.keys(recipe.nutrients).length > 0 && (
-              <p>
-                <strong>Nutrients:</strong><br />
-                Calories: {recipe.nutrients.calories ?? 'N/A'} | 
-                Fat: {recipe.nutrients.fat ?? 'N/A'}g | 
-                Carbs: {recipe.nutrients.carbohydrates ?? 'N/A'}g | 
-                Protein: {recipe.nutrients.protein ?? 'N/A'}g
-              </p>
+            {recipe.nutrients && (
+              <div className="nutrients">
+                <h4>Nutrients</h4>
+                <ul>
+                  <li>Calories: {recipe.nutrients.calories}</li>
+                  <li>Fat: {recipe.nutrients.fat} g</li>
+                  <li>Carbs: {recipe.nutrients.carbohydrates} g</li>
+                  <li>Protein: {recipe.nutrients.protein} g</li>
+                </ul>
+              </div>
             )}
           </li>
         ))}
