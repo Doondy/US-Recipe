@@ -1,0 +1,29 @@
+[
+  {
+    "cuisine": "American",
+    "title": "Mac and Cheese",
+    "rating": 4.7,
+    "prep_time": 15,
+    "cook_time": 25,
+    "total_time": 40,
+    "description": "Creamy comfort food.",
+    "nutrients": {
+      "calories": 400,
+      "fat": 20,
+      "carbohydrates": 45,
+      "protein": 15
+    },
+    "serves": "4 servings"
+  },
+  {
+    "cuisine": "Mexican",
+    "title": "Tacos",
+    "rating": "NaN",
+    "prep_time": "NaN",
+    "cook_time": 10,
+    "total_time": 10,
+    "description": "Spicy beef tacos.",
+    "nutrients": {},
+    "serves": "2 servings"
+  }
+]
