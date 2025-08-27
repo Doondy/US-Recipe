@@ -12,11 +12,30 @@ async function run() {
     const collection = db.collection("recipes");
 
     // Example: insert one recipe
-    await collection.insertOne({
-      title: "Test Recipe",
-      cuisine: "Fusion",
-      rating: 4.5
-    });
+    await collection.insertMany([{
+      title: "Pizza with Kimchi",
+      cuisine: "New York Fusion",
+      rating: 4.7
+    },{
+        title: "Bagel with Lox and Wasabi Cream Cheese",
+        cuisine: "New York Fusion",
+        rating: 4.8
+
+    },{
+        title: "Cornbread",
+        cuisine: "Southern",
+        rating: 4.8
+    },{
+        title: "Barbecue",
+        cuisine: "Southern",
+        rating: 4.8
+        
+    },{
+        title: "Avocado Sushi Burrito",
+        cuisine: "West Coast Fusion",
+        rating: 4.8
+
+    }]);
 
     const allRecipes = await collection.find().toArray();
     console.log("Recipes:", allRecipes);

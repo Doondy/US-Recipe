@@ -6,10 +6,11 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/US_recipes.json")
+    fetch("/Us_recipes.json")
       .then((res) => res.json())
       .then((data) => {
         setRecipes(data);
+        console.log(data);
         setLoading(false);
       })
       .catch((err) => {
